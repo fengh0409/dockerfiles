@@ -1,0 +1,62 @@
+#!/usr/bin/with-contenv sh
+
+if [[ $ENABLE_PRIVILEGED == true ]];then
+    # 最大连接数
+    sysctl -w net.core.somaxconn=65535
+    # 句柄数
+    limitconf=$(cat <<LIMIT
+*     soft   nproc           65535
+*     hard   nproc           65535
+*     soft   nofile          65535
+*     hard   nofile          65535
+LIMIT
+)
+    echo "$limitconf" >> /etc/security/limits.conf
+    sed -i 's/1024/10240/' /etc/security/limits.d/90-nproc.conf
+fi
+
+if [[ $ENABLE_MONGODB == true ]];then
+	sed -i 's/;extension = "mongodb.so"/extension = "mongodb.so"/' /usr/local/php/etc/php.ini
+fi
+
+if [[ $ENABLE_REDIS == true ]];then
+        sed -i 's/;extension = "redis.so"/extension = "redis.so"/' /usr/local/php/etc/php.ini
+fi
+
+if [[ $ENABLE_MEMCACHED == true ]];then
+        sed -i 's/;extension = "memcached.so"/extension = "memcached.so"/' /usr/local/php/etc/php.ini
+fi
+
+if [[ $ENABLE_XDEBUG == true ]];then
+        sed -i 's/;extension = "xdebug.so"/extension = "xdebug.so"/' /usr/local/php/etc/php.ini
+        echo 'xdebug.auto_trace=off
+xdebug.show_exception_trace=0
+xdebug.remote_autostart=on
+xdebug.remote_enable=on
+xdebug.remote_host=localhost
+xdebug.trace_output_dir=/tmp/xdebug/
+xdebug.trace_output_name=
+xdebug.trace_enable_trigger=on
+xdebug.show_mem_delta=on
+xdebug.collect_vars=on
+xdebug.collect_params=4
+xdebug.collect_return=on
+xdebug.trace_format=on' >> /usr/local/php/etc/php.ini
+fi
+
+if [[ $ENABLE_ENV == true ]];then
+	sed -i 's/clear_env = yes/clear_env = no/' /usr/local/php/etc/php-fpm.conf
+fi
+
+if [[ "" != $PHP_AUTO_PREPEND_FILE ]];then
+	 sed -i -r 's/^;*\s*auto_prepend_file\s*=\s*(.*?)$/auto_prepend_file = '${PHP_AUTO_PREPEND_FILE//\//\\\/}'/' /usr/local/php/etc/php.ini
+fi
+
+mkdir -p $LOGPATH
+chown -R www.www $LOGPATH
+mkdir -p $CODEPATH
+
+#替换日志路径
+sed -i "s@LOGPATH@$LOGPATH@g" /usr/local/php/etc/php.ini
+
+echo "root:10jqka" |chpasswd

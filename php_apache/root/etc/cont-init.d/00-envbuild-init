@@ -1,0 +1,23 @@
+#!/usr/bin/with-contenv sh
+
+builddep=".builddep/"
+
+if [[ -d $CODEPATH$builddep$THS_TIER ]];then
+	runpath=$THS_TIER
+else
+	runpath="default"
+fi
+
+
+if [[ -f $CODEPATH$builddep$runpath"/hosts" ]];then
+        cat $CODEPATH$builddep$runpath"/hosts" >> /etc/hosts || true
+fi
+
+if [[ -f $CODEPATH$builddep$runpath"/crontab" ]];then
+	cat $CODEPATH$builddep$runpath"/crontab" > /etc/crontab || true
+fi
+
+if [[ -f $CODEPATH$builddep$runpath"/init" ]];then
+        chmod +x $CODEPATH$builddep$runpath/init
+        exec $CODEPATH$builddep$runpath/init
+fi

@@ -1,0 +1,10 @@
+#!/usr/bin/with-contenv sh
+sysctl -w net.core.somaxconn=65535
+
+path=/var/www/html
+if [ -d ${path}/config ]
+then
+    cp -rf ${path}/config_${RUN_MODE}/*  ${path}/config
+else
+    cp -rf ${path}/config_${RUN_MODE}  ${path}/config
+fi

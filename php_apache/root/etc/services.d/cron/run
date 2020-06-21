@@ -1,0 +1,4 @@
+#!/usr/bin/with-contenv sh
+if [[ $ENABLE_CROND == true ]];then
+	source /etc/sysconfig/crond && exec /usr/sbin/crond -n $CRONDARGS
+fi

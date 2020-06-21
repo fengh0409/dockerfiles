@@ -1,0 +1,24 @@
+#!/usr/bin/with-contenv sh
+
+if [[ $ENABLE_SWOOLE == true ]];then
+    sed -i 's/;extension = "swoole.so"/extension = "swoole.so"/' /usr/local/php/etc/php.ini
+fi
+
+if [[ $ENABLE_DBASE == true ]];then
+    sed -i 's/;extension = "dbase.so"/extension = "dbase.so"/' /usr/local/php/etc/php.ini
+fi
+
+if [[ $ENABLE_GEARMAN == true ]];then
+    sed -i 's/;extension = "gearman.so"/extension = "gearman.so"/' /usr/local/php/etc/php.ini
+fi
+
+if [[ $ENABLE_XHPROF == true ]];then
+    sed -i 's/;extension = "xhprof.so"/extension = "xhprof.so"/' /usr/local/php/etc/php.ini
+fi
+
+if [[ $ENABLE_APCU == true ]];then
+    sed -i 's/;extension = "apcu.so"/extension = "apcu.so"/' /usr/local/php/etc/php.ini
+    echo 'apc.enabled=on
+apc.shm_size=64M
+apc.enable_cli=on' >> /usr/local/php/etc/php.ini
+fi
