@@ -1,7 +1,0 @@
-[yum-myhexin]
-name = yum-myhexin.repo
-baseurl = http://repo.myhexin.com:8081/repository/yum-public/$releasever/os/$basearch/
-enabled = 1
-protect =0
-gpgcheck = 0
-

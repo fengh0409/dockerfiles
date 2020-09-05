@@ -1,6 +1,6 @@
-FROM hub.hexin.cn:9082/baseimages/centos:6.9
+FROM centos:6.9
 
-LABEL maintainer="fenghui@myhexin.com"
+LABEL maintainer="fengh0409@gmail.com"
 
 WORKDIR /usr/local/src
 
@@ -20,7 +20,7 @@ RUN wget http://ftp.tsukuba.wide.ad.jp/software/apache//apr/apr-1.6.5.tar.gz \
     && ./configure --prefix=/usr/local/apr-util --with-apr=/usr/local/apr \
     && make && make install \
     && rm -rf /usr/local/src/*
-ADD httpd-2.2.32.tar.gz /usr/local/src
+ADD https://archive.apache.org/dist/httpd/httpd-2.2.32.tar.gz /usr/local/src
 RUN cd httpd-2.2.32 \
     && ./configure --prefix=/usr/local/apache2 --sysconfdir=/etc/httpd/ --enable-so --enable-ssl --enable-headers --enable-rewrite --with-pcre --with-mpm=prefork --with-apr=/usr/local/apr --with-apr-util=/usr/local/apr-util \
     && make && make install \
@@ -44,7 +44,7 @@ COPY ./script/extensions.sh /ths_build/extensions.sh
 RUN sh /ths_build/extensions.sh
 
 # install supervisor
-ADD src/s6-overlay-amd64.tar.gz /
+ADD https://github.com/just-containers/s6-overlay/releases/download/v2.0.0.1/s6-overlay-amd64.tar.gz /
 
 COPY ./root /
 ENV ENABLE_MONGODB=false \

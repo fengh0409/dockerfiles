@@ -59,4 +59,4 @@ mkdir -p $CODEPATH
 #替换日志路径
 sed -i "s@LOGPATH@$LOGPATH@g" /usr/local/php/etc/php.ini
 
-echo "root:10jqka" |chpasswd
+echo "root:root" |chpasswd

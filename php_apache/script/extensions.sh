@@ -20,7 +20,6 @@ cd /usr/local/src/phpredis-3.1.4/ && /usr/local/php/bin/phpize &&  ./configure -
 cd /usr/local/src/xdebug-2.6.0/ && /usr/local/php/bin/phpize &&  ./configure --with-php-config=/usr/local/php/bin/php-config && make && make install
 
 #composer
-echo '10.0.15.249 repo.myhexin.com' >> /etc/hosts
 php -r "copy('https://install.phpcomposer.com/installer', 'composer-setup.php');"
 php composer-setup.php
 php -r "unlink('composer-setup.php');"
@@ -28,7 +27,7 @@ mv composer.phar /usr/local/bin/composer
 chmod +x /usr/local/bin/composer
 composer config -g secure-http false
 composer config -g -- disable-tls true
-composer config -g repo.packagist composer http://repo.myhexin.com:8081/repository/composer-public/
+composer config -g repo.packagist composer https://packagist.phpcomposer.com
 
 #phpunit
 curl -O https://phar.phpunit.de/phpunit-6.5.5.phar

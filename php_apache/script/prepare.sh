@@ -2,7 +2,6 @@
 set -e
 set -x
 
-useradd 10jqka
 useradd www
 
 yum install -y \

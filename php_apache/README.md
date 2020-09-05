@@ -3,7 +3,7 @@
 * extensions.sh 用于安装php比较通用的扩展 但不会在系统中默认加载
 
 #  build
-* `docker build -t hub.hexin.cn:9082/baseimages/php_apache:php_7.2.8_apache_2.2.32 .`
+* `docker build -t fengh0409/php_apache:php_7.2.8_apache_2.2.32 .`
 
 # 系统版本
 * centos 6.9
@@ -34,8 +34,4 @@ CODEPATH
 
 # php
 * 默认可执行 php,phpunit(6.5.5),composer
-
-# 服务
-* 默认打开sshd 服务 默认密码：10jqka
-* 默认打开crond 服务 /etc/crontab
 
